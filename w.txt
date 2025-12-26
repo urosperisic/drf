@@ -1,0 +1,86 @@
+sudo apt update
+sudo apt upgrade -y
+sudo apt install curl wget git openssh-client -y
+
+cp -r /media/$USER/DISK_NAME/.ssh ~/
+
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/id_ed25519
+chmod 644 ~/.ssh/id_ed25519.pub
+chmod 644 ~/.ssh/known_hosts
+sudo chown -R $USER:$USER ~/.ssh
+ls -la ~/.ssh
+killall ssh-agent 2>/dev/null
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+ssh-add -l
+ssh -T git@github.com
+
+git --version
+git config --global user.name "myname"
+git config --global user.email "myname@example.com"
+git config --global init.defaultBranch main
+git config --global color.ui auto
+git config --global core.editor nano
+git config --list
+
+----------
+
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source $HOME/.cargo/env
+
+uv python install 3.14
+uv python list
+
+uv python pin 3.14
+uv venv
+source .venv/bin/activate
+
+uv sync
+uv add django djangorestframework
+uv add --dev pytest ruff black
+uv pip list
+
+python --version
+which python
+
+uv run python manage.py runserver
+uv run python manage.py migrate
+uv run pytest
+
+uv lock
+uv cache clean
+
+uv --version
+uv --help
+
+----------
+
+wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
+    | gpg --dearmor \
+    | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
+
+echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' \
+    | sudo tee /etc/apt/sources.list.d/vscodium.list
+
+sudo apt update
+
+sudo apt install codium -y
+
+----------
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+
+source ~/.bashrc
+
+nvm --version
+
+nvm ls
+
+nvm ls-remote
+
+nvm install --lts
+
+nvm use 22
+
+----------
